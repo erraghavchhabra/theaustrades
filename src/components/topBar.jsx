@@ -7,7 +7,7 @@ function TopBar() {
     <section className="topbar">
       <div className="container">
         <div className="row">
-          <div className="col-4 my-auto">
+          <div className="col-lg-4 col-12 my-auto">
             <Link to="/">
               <img
                 src={Logo}
@@ -16,16 +16,16 @@ function TopBar() {
               />
             </Link>
           </div>
-          <div className="col-8 text-end  my-auto">
+          <div className="col-lg-8 col-12 text-lg-end text-center  my-auto">
             <ul className="list-inline topbar-ul mb-0">
               <li className="list-inline-item">
-                <Link className="btn-light" to="/find_a_tradie">
-                  Find A Tradie
+                <Link className="btn-light" to="/login">
+                  Login
                 </Link>
               </li>
               <li className="list-inline-item">
-                <Link className="btn-dark" to="/for_business">
-                  List Your Business
+                <Link className="btn-dark" to="/register">
+                  Register
                 </Link>
               </li>
               <li className="list-inline-item">
@@ -46,6 +46,26 @@ function TopBar() {
                   className="circle-btn twitter"
                 >
                   <i className="bi bi-twitter-x"></i>
+                </a>
+              </li>
+              <li className="list-inline-item">
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="circle-btn instagram"
+                >
+                 <i className="fa-brands fa-instagram"></i>
+                </a>
+              </li>
+              <li className="list-inline-item">
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="circle-btn linkedin"
+                >
+                <i className="fa-brands fa-linkedin"></i>
                 </a>
               </li>
             </ul>

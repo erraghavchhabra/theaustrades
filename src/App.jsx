@@ -10,7 +10,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import FindTradie from "./pages/FindTradie";
 import ForBusiness from "./pages/ForBusiness";
-
+import Login from "./pages/login";
+import Register from "./pages/register";
 function App() {
   return (
     <>
@@ -23,6 +24,8 @@ function App() {
         <Route path="/terms" element={<TermsAndConditions />} />
         <Route path="/find_a_tradie" element={<FindTradie />} />
         <Route path="/for_business" element={<ForBusiness />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Routes>
       <Footer />
     </>

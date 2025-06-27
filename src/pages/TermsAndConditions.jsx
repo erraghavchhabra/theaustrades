@@ -2,9 +2,10 @@ import React from "react";
 
 function TermsAndConditions() {
   return (
-    <section>
+  <div className="inner-wrap">
+    <section className="privacy-policy section-space">
       <div className="container mt-5 mb-5">
-        <h2 className="text-primarycolor">Terms and Conditions</h2>
+        <h2 className="main-heading">Terms and Conditions</h2>
         <p>
           The following provisions govern your use of{" "}
           <a
@@ -37,7 +38,7 @@ function TermsAndConditions() {
             Privacy Policy.
           </a>
         </p>
-        <h5 className="text-secondary fw-bold mt-4">User Submissions</h5>
+        <h5 className="sub-heading">User Submissions</h5>
         <p>
           It is a condition of these Terms and Conditions that all information
           you post and/or submit to be posted in our directories, including all
@@ -90,7 +91,7 @@ function TermsAndConditions() {
           profit or business opportunity that may result from the suspension or
           cancellation of your service account.
         </p>
-        <h5 className="text-secondary fw-bold mt-4">
+        <h5 className="sub-heading">
           Copyright and Trade Marks
         </h5>
         <p>
@@ -108,7 +109,7 @@ function TermsAndConditions() {
           service offering.
         </p>
         <p>Postcode mapping information supplied by, and copyright FindMap</p>
-        <h5 className="text-secondary fw-bold mt-4">General Disclaimer</h5>
+        <h5 className="sub-heading">General Disclaimer</h5>
         <p>
           The licensedtrades.com.au Web Site is provided on an 'as is, with all
           faults and as available' basis and to the extent permitted by law
@@ -125,7 +126,7 @@ function TermsAndConditions() {
           discontinue operating the licensedtrades.com.au Web Site at any time
           without notice.
         </p>
-        <h5 className="text-secondary fw-bold mt-4">
+        <h5 className="sub-heading">
           Use of the licensedtrades.com.au Web Site
         </h5>
         <p>
@@ -154,7 +155,7 @@ function TermsAndConditions() {
           licensedtrades.com.au Web Site, our systems or data or those of any
           third party via the licensedtrades.com.au Web Site.
         </p>
-        <h5 className="text-secondary fw-bold mt-4">Disclaimer</h5>
+        <h5 className="sub-heading">Disclaimer</h5>
         <p>
           We strive to provide valuable and accurate information. The editors of
           the material contained in the licensedtrades.com.au Web Site have
@@ -213,7 +214,7 @@ function TermsAndConditions() {
           liability with regard to any such products, services or web site
           links.
         </p>
-        <h5 className="text-secondary fw-bold mt-4">Payment Facilitator</h5>
+        <h5 className="sub-heading">Payment Facilitator</h5>
         <p>
           We use PromisePay Pty Ltd (PromisePay) as a third party service
           provider for internet based payment services to facilitate payments
@@ -238,7 +239,7 @@ function TermsAndConditions() {
             http://promisepay.com/seller_agreement.
           </a>
         </p>
-        <h5 className="text-secondary fw-bold mt-4">Registration</h5>
+        <h5 className="sub-heading">Registration</h5>
         <p>
           You must register and obtain a service account in order to submit
           information to the licensedtrades.com.au Web Site. To do so, and to
@@ -274,7 +275,7 @@ function TermsAndConditions() {
           Submissions will continue to apply once your service account has been
           closed.
         </p>
-        <h5 className="text-secondary fw-bold mt-4">
+        <h5 className="sub-heading">
           Designated Copyright Representative
         </h5>
         <p>
@@ -302,7 +303,7 @@ function TermsAndConditions() {
           </h6>
           <h6>Fax: 61 2 8396 1399</h6>
         </address>
-        <h5 className="text-secondary fw-bold mt-4">Indemnification</h5>
+        <h5 className="sub-heading">Indemnification</h5>
         <p>
           You agree to indemnify, defend and hold harmless us and our officers,
           directors, employees, agents, information providers, partners,
@@ -314,7 +315,7 @@ function TermsAndConditions() {
           negligent or wrongful conduct) by you or any other person accessing
           the licensedtrades.com.au Web Site using your service account.
         </p>
-        <h5 className="text-secondary fw-bold mt-4">
+        <h5 className="sub-heading">
           Waiver, Release and Limitation of Liability
         </h5>
         <p>
@@ -368,7 +369,7 @@ function TermsAndConditions() {
           control or the control of any vendor providing software or services
           support to us.
         </p>
-        <h5 className="text-secondary fw-bold mt-4">Third Party Rights</h5>
+        <h5 className="sub-heading">Third Party Rights</h5>
         <p>
           The provisions of Indemnification and the Waiver, Release and
           Limitation of Liability are for our benefit and the benefit of our
@@ -377,7 +378,7 @@ function TermsAndConditions() {
           individuals or entities shall have the right to assert and enforce
           those provisions directly against you on its own behalf.
         </p>
-        <h5 className="text-secondary fw-bold mt-4">Miscellaneous</h5>
+        <h5 className="sub-heading">Miscellaneous</h5>
         <p>
           Site operator reserves the right to engage with partners to deliver
           the quote fulfillment services. Currently the following are
@@ -399,6 +400,7 @@ function TermsAndConditions() {
         <p className="text-muted small">Last updated on 01/05/2013</p>
       </div>
     </section>
+    </div>
   );
 }
 
