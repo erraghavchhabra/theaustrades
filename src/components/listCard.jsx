@@ -1,14 +1,46 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as bootstrap from "bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function ListCard({ data }) {
   const [bookmarked, setBookmarked] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const favRef = useRef(null);
   const tooltipInstance = useRef(null);
+  const navigate = useNavigate();
 
-  const handleBookmarkToggle = () => {
-    setBookmarked((prev) => !prev);
+  const handleBookmarkToggle = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    try {
+      const response = await fetch("https://rehabhospitality.com/api/bookmark", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          token: token, // If your backend expects 'token' in header
+          // If your backend expects Bearer: Authorization
+          // Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          license_id: data.id, // Use correct key if different
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setBookmarked((prev) => !prev);
+      } else {
+        console.error(result.message || "Bookmark failed.");
+      }
+    } catch (error) {
+      console.error("API error:", error);
+    }
   };
 
   const handleToggleExpand = () => {
@@ -69,7 +101,11 @@ function ListCard({ data }) {
           </span>
         </li>
         <li className="list-inline-item my-auto">
-          <span className={`badge rounded bg-${data.status?.toLowerCase() === "expired" ? "danger" : "dark"} text-white`}>
+          <span
+            className={`badge rounded bg-${
+              data.status?.toLowerCase() === "expired" ? "danger" : "dark"
+            } text-white`}
+          >
             {data.status || "Unknown"}
           </span>
         </li>
