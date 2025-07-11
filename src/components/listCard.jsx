@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import * as bootstrap from "bootstrap";
 
-function ListCard() {
+function ListCard({ data }) {
   const [bookmarked, setBookmarked] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const favRef = useRef(null);
@@ -19,29 +19,33 @@ function ListCard() {
     if (tooltipInstance.current) {
       tooltipInstance.current.dispose();
     }
-    tooltipInstance.current = new bootstrap.Tooltip(favRef.current);
+    if (favRef.current) {
+      tooltipInstance.current = new bootstrap.Tooltip(favRef.current);
+    }
   }, [bookmarked]);
 
+  if (!data) return null;
+
   const listItems = [
-    { label: "Licence Number:", value: "4565" },
-    { label: "Expiry Date:", value: "24/07/2027" },
-    { label: "Licensing Body:", value: "TAS Architect" },
-    { label: "Category:", value: "Low Rise Builder" },
-    { label: "Class:", value: "A" },
-    { label: "ABN/ACN:", value: "24368" },
-    { label: "State:", value: "TAS" },
-    { label: "Address:", value: "24 Bright Street" },
-    { label: "Suburb:", value: "Ingleburn" },
-    { label: "Zip Code:", value: "2565" },
-    { label: "Conditions:", value: "Not Applicable to perform this task" },
+    { label: "Licence Number:", value: data.license_number },
+    { label: "Expiry Date:", value: data.expiry_date },
+    { label: "Licensing Body:", value: data.licensing_body },
+    { label: "Category:", value: data.category },
+    { label: "Class:", value: data.class },
+    { label: "ABN/ACN:", value: data.abn_acn },
+    { label: "State:", value: data.state },
+    { label: "Address:", value: data.address },
+    { label: "Suburb:", value: data.suburb },
+    { label: "Zip Code:", value: data.zip_code },
+    { label: "Conditions:", value: data.conditions },
   ];
 
   const visibleItems = expanded ? listItems : listItems.slice(0, 4);
 
   return (
-    <div className="list-card">
+    <div className="list-card mb-4 p-3 border rounded shadow-sm">
       <div
-        className="fav-div"
+        className="fav-div float-end"
         ref={favRef}
         onClick={handleBookmarkToggle}
         data-bs-toggle="tooltip"
@@ -56,37 +60,36 @@ function ListCard() {
         )}
       </div>
 
-      <h1 className="list-title">A & M Johnson Construction Company pvt Ltd</h1>
+      <h4 className="list-title">{data.name || "Unnamed Business"}</h4>
 
-      <ul className="list-inline tag-ul">
+      <ul className="list-inline tag-ul mb-2">
         <li className="list-inline-item my-auto">
           <span className="occ">
-            <i className="fa-solid fa-briefcase"></i> Construction Company
+            <i className="fa-solid fa-briefcase"></i> {data.occupation || "N/A"}
           </span>
         </li>
         <li className="list-inline-item my-auto">
-          <span className="badge rounded bg-dark text-white">Expired</span>
+          <span className={`badge rounded bg-${data.status?.toLowerCase() === "expired" ? "danger" : "dark"} text-white`}>
+            {data.status || "Unknown"}
+          </span>
         </li>
       </ul>
 
       <ul className="list-ul list-unstyled">
         {visibleItems.map((item, index) => (
-          <li key={index}>
-            <span className="span-left">{item.label}</span>
-            <span className="span-right">{item.value}</span>
+          <li key={index} className="d-flex justify-content-between">
+            <span className="fw-bold">{item.label}</span>
+            <span>{item.value || "—"}</span>
           </li>
         ))}
       </ul>
 
-      {listItems.length > 2 && (
-        <div className="text-center">
-          <button
-          className="btn-light"
-          onClick={handleToggleExpand}
-        >
-          {expanded ? "View Less" : "View More"}
-        </button>
-          </div>
+      {listItems.length > 4 && (
+        <div className="text-center mt-2">
+          <button className="btn btn-sm btn-light" onClick={handleToggleExpand}>
+            {expanded ? "View Less" : "View More"}
+          </button>
+        </div>
       )}
     </div>
   );

@@ -1,48 +1,72 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function Register() {
+function MyProfile() {
     const [form, setForm] = useState({
         name: "",
         last_name: "",
         email: "",
         phone: "",
-        password: "",
-        confirm_password: "",
-        terms: false,
     });
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
+    // ✅ Load user data safely from localStorage
+    useEffect(() => {
+        const userData = localStorage.getItem("user");
+        try {
+            if (userData && userData !== "undefined") {
+                const user = JSON.parse(userData);
+                setForm({
+                    name: user.name || "",
+                    last_name: user.last_name || "",
+                    email: user.email || "",
+                    phone: user.phone || "",
+                });
+            }
+        } catch (err) {
+            console.error("Invalid user data in localStorage:", err);
+            localStorage.removeItem("user");
+        }
+    }, []);
+
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setForm({ ...form, [name]: type === "checkbox" ? checked : value });
+        const { name, value } = e.target;
+        setForm((prevForm) => ({
+            ...prevForm,
+            [name]: value
+        }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (form.password !== form.confirm_password) {
-            setError("Passwords do not match");
-            return;
-        }
-
-        if (!form.terms) {
-            setError("You must accept terms and conditions");
-            return;
-        }
+        setError("");
+        setSuccess("");
 
         try {
-            const response = await axios.post("https://rehabhospitality.com/api/register", form); // Replace with your real endpoint
+            const token = localStorage.getItem("token");
 
-            setSuccess("Registration successful!");
-            setError("");
-            // Optional: Redirect to login
-            // window.location.href = "/login";
+            const response = await axios.post(
+                "https://rehabhospitality.com/api/profile",
+                {
+                    name: form.name,
+                    last_name: form.last_name,
+                    phone: form.phone,
+                },
+                {
+                    headers: {
+                        token: `${token}`,
+                        Accept: "application/json"
+                    }
+                }
+            );
+
+            setSuccess("Profile updated successfully!");
+            localStorage.setItem("user", JSON.stringify(response.data.user));
         } catch (err) {
-            setError(err.response?.data?.message || "Registration failed.");
-            setSuccess("");
+            console.error(err);
+            setError(err.response?.data?.message || "Update failed.");
         }
     };
 
@@ -53,7 +77,7 @@ function Register() {
                     <div className="row justify-content-center">
                         <div className="col-lg-7">
                             <form onSubmit={handleSubmit} className="reg-form shadow">
-                                <h5 className="reg-title">Register</h5>
+                                <h5 className="reg-title">My Profile</h5>
 
                                 {error && <div className="alert alert-danger">{error}</div>}
                                 {success && <div className="alert alert-success">{success}</div>}
@@ -96,8 +120,7 @@ function Register() {
                                                 name="email"
                                                 className="form-control"
                                                 value={form.email}
-                                                onChange={handleChange}
-                                                required
+                                                disabled
                                             />
                                         </div>
                                     </div>
@@ -116,59 +139,10 @@ function Register() {
                                     </div>
                                 </div>
 
-                                <div className="row">
-                                    <div className="col-lg-6">
-                                        <div className="form-group">
-                                            <label className="label-top">Password</label>
-                                            <input
-                                                type="password"
-                                                name="password"
-                                                className="form-control"
-                                                value={form.password}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="col-lg-6">
-                                        <div className="form-group">
-                                            <label className="label-top">Confirm Password</label>
-                                            <input
-                                                type="password"
-                                                name="confirm_password"
-                                                className="form-control"
-                                                value={form.confirm_password}
-                                                onChange={handleChange}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="form-group">
-                                    <div className="form-check">
-                                        <input
-                                            type="checkbox"
-                                            className="form-check-input"
-                                            id="rememberMe2"
-                                            name="terms"
-                                            checked={form.terms}
-                                            onChange={handleChange}
-                                        />
-                                        <label className="form-check-label nm-check" htmlFor="rememberMe2">
-                                            I accept all the <a href="#">Term & Conditions</a>
-                                        </label>
-                                    </div>
-                                </div>
-
                                 <div className="form-group">
                                     <button type="submit" className="btn btn-dark mt-2 w-100">
-                                        Submit
+                                        Update
                                     </button>
-                                </div>
-
-                                <div className="text-center">
-                                    <p>Already have an account? <a href="/login">Login</a></p>
                                 </div>
                             </form>
                         </div>
@@ -179,4 +153,4 @@ function Register() {
     );
 }
 
-export default Register;
+export default MyProfile;

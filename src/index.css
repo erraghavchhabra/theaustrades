@@ -149,6 +149,32 @@ p {
 }
 
 /* topbar */
+.user-toggle-btn {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  border: none;
+  background: transparent;
+}
+
+.user-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--bs-secondary);
+  color: white;
+  width: 42px;
+  height: 42px;
+  margin-right: 0.5rem;
+}
+
+.dropdown-menu.show {
+  display: block;
+}
+.m-drop .dropdown-menu{
+  z-index: 1070;
+}
 .topbar {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -823,7 +849,10 @@ p {
   font-weight: 400;
   letter-spacing: .5px
 }
-
+.reg-form .form-group .form-control:disabled{
+      background-color: #e9ecef;
+    opacity: 1;
+}
 .reg-form .form-group textarea.form-control {
   height: 90px
 }

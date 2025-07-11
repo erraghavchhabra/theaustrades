@@ -13,6 +13,9 @@ import ForBusiness from "./pages/ForBusiness";
 import Login from "./pages/login";
 import Register from "./pages/register";
 import List from "./pages/list";
+import FavoriteList from "./pages/favList";
+import MyProfile from "./pages/myProfile";
+import ChangePassword from "./pages/changePassword";
 function App() {
   return (
     <>
@@ -28,6 +31,9 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/list" element={<List />} />
+        <Route path="/favorite" element={<FavoriteList />} />
+        <Route path="/profile" element={<MyProfile />} />
+        <Route path="/change-password" element={<ChangePassword />} />
       </Routes>
       <Footer />
     </>
