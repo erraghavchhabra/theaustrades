@@ -38,6 +38,7 @@ function Register() {
 
             setSuccess("Registration successful!");
             setError("");
+             window.location.href = "/login";
             // Optional: Redirect to login
             // window.location.href = "/login";
         } catch (err) {
