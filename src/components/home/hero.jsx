@@ -8,10 +8,10 @@ function Hero() {
                 </video>
             <div className='container'>
                 <div className='row justify-content-center'>
-                    <div className='col-lg-8 '>
+                    <div className='col-lg-9 '>
                         <div className='text-center'>
-                            <h1 className='hero-title'>Free Online Licence Verification of All Trade Professionals</h1>
-                        <p className='hero-p'>Across Australia Consisting Over 1.2 Million Licences Retrieved From 50 Licensing Bodies</p>
+                            <h1 className='hero-title'>Free Online Licence Verification of All Trade Professionals Across Australia</h1>
+                        <p className='hero-p'>Search Over 2 MillionLicence Records Covering 50 Licensing Bodies</p>
                         </div>
                         <div className='main-form'>
 
@@ -19,13 +19,13 @@ function Hero() {
                                 <div className='col-lg-6'>
                                     <div className='form-group'>
                                         <label className='label-top'>Licensee/Individual or Business/Company Name</label>
-                                        <input className='form-control' placeholder='e.g. John Smith...' />
+                                        <input className='form-control' placeholder='James Smith' />
                                     </div>
                                 </div>
                                 <div className='col-lg-4'>
                                     <div className='form-group'>
                                         <label className='label-top'>Licensee Number</label>
-                                        <input className='form-control' placeholder='e.g. John Smith...' />
+                                        <input className='form-control' placeholder='CBD4557' />
                                     </div>
                                 </div>
                                 <div className='col-lg-2'>

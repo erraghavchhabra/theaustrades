@@ -33,7 +33,7 @@ function Footer() {
                     <div className='col-lg-2 col-md-3 col-6'>
                         <ul className='list-unstyled'>
                             <li><Link className="btn-light w-100 text-center" to="/find_a_tradie">Find A Tradie</Link></li>
-                            <li><Link className="btn-dark w-100 text-center" to="/for_business">List Your BUsiness</Link></li>
+                            <li><Link className="btn-dark w-100 text-center" to="/for_business">List Your Business</Link></li>
                         </ul>
                     </div>
                 </div>
