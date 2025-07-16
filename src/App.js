@@ -16,6 +16,9 @@ import List from "./pages/list";
 import FavoriteList from "./pages/favList";
 import MyProfile from "./pages/myProfile";
 import ChangePassword from "./pages/changePassword";
+import SlugPage from './pages/licensing/SlugPage';
+import SlugPageOccupation from './pages/occupations/SlugPageOccupation';
+
 function App() {
   return (
     <>
@@ -34,6 +37,8 @@ function App() {
         <Route path="/favorite" element={<FavoriteList />} />
         <Route path="/profile" element={<MyProfile />} />
         <Route path="/change-password" element={<ChangePassword />} />
+        <Route path="/licensing/:slug" element={<SlugPage />} />
+        <Route path="/occupations/:slug" element={<SlugPageOccupation />} />
       </Routes>
       <Footer />
     </>

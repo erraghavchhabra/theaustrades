@@ -1,24 +1,20 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Logo from "../assets/img/logo.svg";
 
 function Navbar() {
-  // ──────────────────────────────────────────────────────────────
-  // 1. State to control the Bootstrap‑style collapse on mobile
-  // ──────────────────────────────────────────────────────────────
   const [collapsed, setCollapsed] = useState(true);
+  const location = useLocation();
 
   const navList = [
     { label: "Verify a Licence", href: "#" },
-    { label: "Licensing Bodies Information", href: "#", isMegaMenu: true },
-    { label: "Occupations Information", href: "#" },
+    { label: "Licensing Bodies Information", href: "#", isMegaMenu: "licensing" },
+    { label: "Occupations Information", href: "#", isMegaMenu: "occupations" },
     { label: "Find a Licensed Tradie", href: "/find_a_tradie" },
     { label: "List Your Business", href: "/for_business" },
   ];
 
-  // ──────────────────────────────────────────────────────────────
-  // 2. Sticky navbar on scroll (unchanged)
-  // ──────────────────────────────────────────────────────────────
+  // ✅ Sticky navbar on scroll
   useEffect(() => {
     const navbar = document.querySelector(".custom-navbar");
 
@@ -34,9 +30,7 @@ function Navbar() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ──────────────────────────────────────────────────────────────
-  // 3. Toggle mega‑menu items on mobile (unchanged)
-  // ──────────────────────────────────────────────────────────────
+  // ✅ Mega menu toggle for mobile
   useEffect(() => {
     const handleMobileMegaToggle = (e) => {
       if (window.innerWidth >= 992) return;
@@ -54,10 +48,107 @@ function Navbar() {
     return () => document.removeEventListener("click", handleMobileMegaToggle);
   }, []);
 
-  // Helper: close menu after clicking any link (mobile only)
-  const handleNavItemClick = () => {
-    if (window.innerWidth < 992) setCollapsed(true);
+  const handleNavItemClick = (href) => {
+    if (window.innerWidth < 992) {
+      const isSameRoute = href === "#" || href === location.pathname;
+      if (!isSameRoute) setCollapsed(true);
+    }
   };
+
+  // ✅ Licensing Bodies List
+  const licensingBodies = [
+    "NT Architects Board",
+    "NT Plumbers and Drainers Licensing Board",
+    "NT Building Practitioners Board",
+    "NT WorkSafe",
+    "NT Surveyors Board",
+    "ACT Government",
+    "WorkSafe ACT",
+    "NSW Architects Registration Board",
+    "Verify NSW",
+    "Board of Architects of Tasmania",
+    "TAS Department of Justice",
+    "WorkSafe Tasmania",
+    "TAS Register of Surveyors",
+    "EnergySafe VIC",
+    "WorkSafe VIC",
+    "Architects Registration Board of Victoria",
+    "Building and Plumbing Commission VIC",
+    "Surveyors Registration Board of Victoria",
+    "SA Consumer and Business Services",
+    "SafeWork SA",
+    "Architectural Practice Board of South Australia",
+    "Surveyors Board of South Australia",
+    "PlanSA",
+    "Architects Board of Western Australia",
+    "The Land Surveyors Licensing Board of Western Australia",
+    "Department of Energy, Mines, Industry Regulation and Safety",
+    "Queensland Building and Construction Commission",
+    "Board of Architects of Queensland",
+    "WorkSafe QLD",
+    "Surveyors Board of Queensland",
+    "Queensland Government",
+  ];
+
+  // ✅ Occupations List (will be sorted alphabetically)
+  const occupations = [
+    "Builder",
+    "Bricklayer",
+    "Stonemason",
+    "Cladder",
+    "Carpenter",
+    "Joiner",
+    "Decorator",
+    "Plasterer",
+    "Excavator",
+    "Glazier",
+    "Fencer",
+    "Floor Installer",
+    "Erector",
+    "Concreter",
+    "Glazier",
+    "Renovator",
+    "Metal Fabricator",
+    "Painter",
+    "Slater",
+    "Tiler",
+    "Landscaper",
+    "Water Proofer",
+    "Under Pinner",
+    "Piler",
+    "Roofer",
+    "Certifier",
+    "Land Valuer",
+    "Manager",
+    "Electrician",
+    "Air Conditioning & Refrigeration",
+    "Hot water Specialist/ Technician",
+    "Fire protection Specialist/ Technician",
+    "Work Assessor",
+    "Professional Engineer",
+    "Building Practitioner",
+    "Building Designer",
+    "Building Inspector",
+    "Design Practitioner",
+    "Owner Builder",
+    "Plumber",
+    "Gasfitter",
+    "Architect",
+    "Building Surveyor",
+    "Arborist",
+    "Land Surveyor",
+    "Asbestos Removalist",
+    "Asbestos Assessor",
+    "Demolisher",
+  ];
+
+  // ✅ Helper to create slugs for links
+  const createSlug = (text) =>
+    text
+      .toLowerCase()
+      .replace(/&/g, "and")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
 
   return (
     <nav className="navbar navbar-expand-lg fixed-top custom-navbar">
@@ -87,15 +178,17 @@ function Navbar() {
           <ul className="navbar-nav custom-nav-list">
             {navList.map((item, index) => (
               <li
-                className={`nav-item custom-nav-item ${item.isMegaMenu ? "position-static" : ""}`}
+                className={`nav-item custom-nav-item ${
+                  item.isMegaMenu ? "position-static" : ""
+                }`}
                 key={index}
               >
-                {/* Regular link vs. mega‑menu toggle */}
+                {/* Regular link vs. mega menu toggle */}
                 {item.isMegaMenu ? (
                   <Link
                     className="nav-link custom-link mega-toggle"
                     to={item.href}
-                    onClick={handleNavItemClick}
+                    onClick={() => handleNavItemClick(item.href)}
                   >
                     {item.label}
                   </Link>
@@ -103,25 +196,47 @@ function Navbar() {
                   <Link
                     className="nav-link custom-link"
                     to={item.href}
-                    onClick={handleNavItemClick}
+                    onClick={() => handleNavItemClick(item.href)}
                   >
                     {item.label}
                   </Link>
                 )}
 
-                {/* Mega‑menu dropdown */}
-                {item.isMegaMenu && (
+                {/* ✅ Mega menu dropdown for Licensing Bodies */}
+                {item.isMegaMenu === "licensing" && (
                   <div className="dropdown-menu mega-dropdown">
                     <ul>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 1</Link></li>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 2</Link></li>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 3</Link></li>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 4</Link></li>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 5</Link></li>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 6</Link></li>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 7</Link></li>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 8</Link></li>
-                      <li><Link to="#" onClick={handleNavItemClick}>Body 9</Link></li>
+                      {licensingBodies.map((body, idx) => {
+                        const href = `/licensing/${createSlug(body)}`;
+                        return (
+                          <li key={idx}>
+                            <Link to={href} onClick={() => handleNavItemClick(href)}>
+                              {body}
+                            </Link>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+                )}
+
+                {/* ✅ Mega menu dropdown for Occupations (sorted A → Z) */}
+                {item.isMegaMenu === "occupations" && (
+                  <div className="dropdown-menu mega-dropdown">
+                    <ul>
+                      {occupations
+                        .slice() // copy array
+                        .sort((a, b) => a.localeCompare(b)) // ✅ alphabetical sort
+                        .map((job, idx) => {
+                          const href = `/occupations/${createSlug(job)}`;
+                          return (
+                            <li key={idx}>
+                              <Link to={href} onClick={() => handleNavItemClick(href)}>
+                                {job}
+                              </Link>
+                            </li>
+                          );
+                        })}
                     </ul>
                   </div>
                 )}
