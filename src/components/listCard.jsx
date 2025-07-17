@@ -3,11 +3,27 @@ import * as bootstrap from "bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function ListCard({ data }) {
+
   const [bookmarked, setBookmarked] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const favRef = useRef(null);
   const tooltipInstance = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+  const userData = localStorage.getItem("user");
+   if (data.bookmarks && userData) {
+    const user = JSON.parse(userData);
+    console.log("user",user.id);
+      const found = data.bookmarks.some(
+        (bookmark) => parseInt(bookmark.user_id) == parseInt(user.id)
+      );
+
+      console.log("found",found);
+      setBookmarked(found);
+    }
+
+     }, [data.bookmarks]);
 
   const handleBookmarkToggle = async () => {
     const token = localStorage.getItem("token");
