@@ -8,7 +8,7 @@ const SlugPageOccupation = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [perPage] = useState(1);
+  const [perPage] = useState(10);
   const [total, setTotal] = useState(0);
   const [lastPage, setLastPage] = useState(1);
 
