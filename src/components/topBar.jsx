@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import Logo from "../assets/img/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../src/redux/authSlice";
+
+
 
 function TopBar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -8,6 +12,8 @@ function TopBar() {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -33,25 +39,10 @@ function TopBar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleLogout = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      await fetch("https://rehabhospitality.com/api/logout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token, // or `Bearer ${token}` if needed
-        },
-      });
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
-    navigate("/login");
-  };
+  const handleLogout = () => {
+  dispatch(logout());
+  navigate("/login");
+};
 
   return (
     <section className="topbar">

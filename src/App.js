@@ -1,10 +1,12 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux"; // 👈 Add this
+
 import Home from "./pages/home";
 import Navbar from "./components/navbar";
 import TopBar from "./components/topBar";
-import "./App.css";
 import Footer from "./components/Footer";
+
 import About from "./pages/About";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
@@ -18,8 +20,11 @@ import MyProfile from "./pages/myProfile";
 import ChangePassword from "./pages/changePassword";
 import SlugPage from './pages/licensing/SlugPage';
 import SlugPageOccupation from './pages/occupations/SlugPageOccupation';
+import Bookmark from "./pages/bookmark";
 
 function App() {
+  const { isAuthenticated } = useSelector((state) => state.auth); // 👈 Get auth status
+
   return (
     <>
       <TopBar />
@@ -34,9 +39,22 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/list" element={<List />} />
-        <Route path="/favorite" element={<FavoriteList />} />
-        <Route path="/profile" element={<MyProfile />} />
-        <Route path="/change-password" element={<ChangePassword />} />
+        <Route
+          path="/favorite"
+          element={isAuthenticated ? <FavoriteList /> : <Navigate to="/login" />}
+        />
+         <Route
+          path="/bookmarks"
+          element={isAuthenticated ? <Bookmark /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/profile"
+          element={isAuthenticated ? <MyProfile /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/change-password"
+          element={isAuthenticated ? <ChangePassword /> : <Navigate to="/login" />}
+        />
         <Route path="/licensing/:slug" element={<SlugPage />} />
         <Route path="/occupations/:slug" element={<SlugPageOccupation />} />
       </Routes>

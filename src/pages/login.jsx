@@ -16,18 +16,22 @@ function Login() {
         try {
             const response = await axios.post("https://rehabhospitality.com/api/login", form);
             const { token, user } = response.data;
+
+            // Store token and user data
             localStorage.setItem("token", token);
             localStorage.setItem("user", JSON.stringify(user));
+
+            // Redirect after login
             window.location.href = "/profile";
         } catch (err) {
-            setError(err.response?.data?.message || "Login failed");
+            setError(err.response?.data?.message || "Login failed. Please try again.");
         }
     };
 
-    const handleResetSubmit = (e) => {
+    const handleResetSubmit = async (e) => {
         e.preventDefault();
         console.log("Sending password reset to:", resetEmail);
-        // 🔒 API call for reset logic can be added here
+        // ✅ You can replace this with an actual API call to reset the password
         setShowModal(false);
     };
 
@@ -72,13 +76,15 @@ function Login() {
                                     <div className="col-6">
                                         <div className="form-check">
                                             <input type="checkbox" className="form-check-input" id="rememberMe2" />
-                                            <label className="form-check-label" htmlFor="rememberMe2">Remember Me</label>
+                                            <label className="form-check-label" htmlFor="rememberMe2">
+                                                Remember Me
+                                            </label>
                                         </div>
                                     </div>
                                     <div className="col-6 text-end">
                                         <button
                                             type="button"
-                                            className="btn  btn-link forgot-link p-0"
+                                            className="btn btn-link forgot-link p-0"
                                             onClick={() => setShowModal(true)}
                                         >
                                             Forgot Password?
@@ -87,11 +93,15 @@ function Login() {
                                 </div>
 
                                 <div className="form-group">
-                                    <button type="submit" className="btn btn-dark mt-2 w-100">Login</button>
+                                    <button type="submit" className="btn btn-dark mt-2 w-100">
+                                        Login
+                                    </button>
                                 </div>
 
                                 <div className="text-center">
-                                    <p>Don't have an account? <a href="/register">Register</a></p>
+                                    <p>
+                                        Don't have an account? <a href="/register">Register</a>
+                                    </p>
                                 </div>
                             </form>
                         </div>
@@ -99,7 +109,7 @@ function Login() {
                 </div>
             </section>
 
-            {/* 🔐 Forgot Password Modal */}
+            {/* Reset Password Modal */}
             {showModal && (
                 <div className="modal fade show d-block" tabIndex="-1" role="dialog">
                     <div className="modal-dialog modal-dialog-centered" role="document">
@@ -111,26 +121,28 @@ function Login() {
                                     onClick={() => setShowModal(false)}
                                 ></button>
                                 <div className="reg-form bg-white border-0 pb-0">
-                                <h5 className="text-center reg-title">Reset Your Password</h5>
-                                <form onSubmit={handleResetSubmit}>
-                                    <div className="form-group mb-3">
-                                        <label className="form-label">Email Address</label>
-                                        <input
-                                            type="email"
-                                            className="form-control"
-                                            placeholder="Enter your email"
-                                            value={resetEmail}
-                                            onChange={(e) => setResetEmail(e.target.value)}
-                                            required
-                                        />
-                                    </div>
-                                    <button type="submit" className="btn btn-dark w-100">Submit</button>
-                                </form>
-                            </div>
+                                    <h5 className="text-center reg-title">Reset Your Password</h5>
+                                    <form onSubmit={handleResetSubmit}>
+                                        <div className="form-group mb-3">
+                                            <label className="form-label">Email Address</label>
+                                            <input
+                                                type="email"
+                                                className="form-control"
+                                                placeholder="Enter your email"
+                                                value={resetEmail}
+                                                onChange={(e) => setResetEmail(e.target.value)}
+                                                required
+                                            />
+                                        </div>
+                                        <button type="submit" className="btn btn-dark w-100">
+                                            Submit
+                                        </button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    {/* 👇 Backdrop */}
+                    {/* Backdrop */}
                     <div className="modal-backdrop fade show"></div>
                 </div>
             )}
