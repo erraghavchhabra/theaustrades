@@ -23,6 +23,7 @@ const FindTradie = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState({});
+   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -39,7 +40,7 @@ const FindTradie = () => {
     };
 
     try {
-      const response = await fetch("https://rehabhospitality.com/api/tradie-request", {
+      const response = await fetch(`${BASE_URL}/tradie-request`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

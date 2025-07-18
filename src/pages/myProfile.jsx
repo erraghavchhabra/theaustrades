@@ -11,6 +11,7 @@ function MyProfile() {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     // ✅ Load user data safely from localStorage
     useEffect(() => {
@@ -48,7 +49,7 @@ function MyProfile() {
             const token = localStorage.getItem("token");
 
             const response = await axios.post(
-                "https://rehabhospitality.com/api/profile",
+                `${BASE_URL}/profile`,
                 {
                     name: form.name,
                     last_name: form.last_name,

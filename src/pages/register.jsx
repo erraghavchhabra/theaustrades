@@ -14,6 +14,7 @@ function Register() {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -34,7 +35,7 @@ function Register() {
         }
 
         try {
-            const response = await axios.post("https://rehabhospitality.com/api/register", form); // Replace with your real endpoint
+            const response = await axios.post(`${BASE_URL}/register`, form); // Replace with your real endpoint
 
             setSuccess("Registration successful!");
             setError("");

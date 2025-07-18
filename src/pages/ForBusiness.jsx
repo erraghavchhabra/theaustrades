@@ -14,6 +14,7 @@ const ForBusiness = () => {
   const [errors, setErrors] = useState({});
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +23,7 @@ const ForBusiness = () => {
     setLoading(true);
 
     try {
-      const response = await fetch("https://rehabhospitality.com/api/quote-for-business", {
+      const response = await fetch(`${BASE_URL}/quote-for-business`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

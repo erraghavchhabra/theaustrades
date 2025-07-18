@@ -6,6 +6,7 @@ function Login() {
     const [error, setError] = useState("");
     const [showModal, setShowModal] = useState(false);
     const [resetEmail, setResetEmail] = useState("");
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value });
@@ -14,7 +15,7 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post("https://rehabhospitality.com/api/login", form);
+            const response = await axios.post(`${BASE_URL}/login`, form);
             const { token, user } = response.data;
 
             // Store token and user data

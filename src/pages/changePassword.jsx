@@ -9,6 +9,7 @@ function ChangePassword() {
 
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -28,7 +29,7 @@ function ChangePassword() {
             const token = localStorage.getItem("token");
 
             const response = await axios.post(
-                "https://rehabhospitality.com/api/change-password",
+                `${BASE_URL}/change-password`,
                 {
                     password: form.password,
                 },

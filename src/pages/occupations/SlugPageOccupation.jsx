@@ -11,12 +11,13 @@ const SlugPageOccupation = () => {
   const [perPage] = useState(10);
   const [total, setTotal] = useState(0);
   const [lastPage, setLastPage] = useState(1);
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   const fetchData = async (page) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://rehabhospitality.com/api/building-licenses?occupation=${slug}&page=${page}&limit=${perPage}`
+        `${BASE_URL}/building-licenses?occupation=${slug}&page=${page}&limit=${perPage}`
       );
 
       if (!response.ok) throw new Error("No data found");

@@ -4,11 +4,12 @@ import ListCard from "../components/listCard";
 const Bookmarks = () => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
     const token = localStorage.getItem("token"); // or use cookies/context if needed
 
-    fetch("https://rehabhospitality.com/api/get-bookmark", {
+    fetch(`${BASE_URL}/get-bookmark`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -47,7 +48,9 @@ const Bookmarks = () => {
       {results.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {results.map((item, index) => (
-            <ListCard key={index} data={item} />
+            <ListCard key={index} data={item} onUnbookmark={(id) => {
+    setResults((prev) => prev.filter((entry) => entry.id !== id));
+  }}/>
           ))}
         </div>
       ) : (

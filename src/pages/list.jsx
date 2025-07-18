@@ -4,9 +4,10 @@ import ListCard from "../components/listCard";
 function List() {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
-    fetch("https://rehabhospitality.com/api/building-licenses")
+    fetch(`${BASE_URL}/building-licenses`)
       .then((res) => res.json())
       .then((data) => {
         setResults(data);

@@ -2,13 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import * as bootstrap from "bootstrap";
 import { useNavigate } from "react-router-dom";
 
-function ListCard({ data }) {
+function ListCard({ data ,onUnbookmark }) {
 
   const [bookmarked, setBookmarked] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const favRef = useRef(null);
   const tooltipInstance = useRef(null);
   const navigate = useNavigate();
+  const BASE_URL = process.env.REACT_APP_API_BASE_URL;
+
 
   useEffect(() => {
   const userData = localStorage.getItem("user");
@@ -34,7 +36,7 @@ function ListCard({ data }) {
     }
 
     try {
-      const response = await fetch("https://rehabhospitality.com/api/bookmark", {
+      const response = await fetch(`${BASE_URL}/bookmark`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -50,7 +52,15 @@ function ListCard({ data }) {
       const result = await response.json();
 
       if (response.ok) {
-        setBookmarked((prev) => !prev);
+        setBookmarked((prev) => {
+        const next = !prev;
+        // If we just removed a bookmark, tell parent to drop this card
+        if (prev && typeof onUnbookmark === "function") {
+          onUnbookmark(data.id);
+        }
+        return next;
+      });
+        
       } else {
         console.error(result.message || "Bookmark failed.");
       }
