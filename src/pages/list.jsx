@@ -1,29 +1,39 @@
 import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import ListCard from "../components/listCard";
 
 function List() {
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const [results, setResults] = useState(location.state?.results || []);
+  const [loading, setLoading] = useState(!location.state?.results);
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
   useEffect(() => {
-    fetch(`${BASE_URL}/building-licenses`)
-      .then((res) => res.json())
-      .then((data) => {
-        setResults(data);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching licenses:", error);
-        setLoading(false);
-      });
-  }, []);
+    // If results were not passed from <Hero />, fetch default
+    if (!location.state?.results) {
+      fetch(`${BASE_URL}/building-licenses-search`)
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data.data)) {
+            setResults(data.data);
+          } else {
+            console.error("Expected `data.data` to be an array:", data);
+            setResults([]);
+          }
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching licenses:", error);
+          setLoading(false);
+        });
+    }
+  }, [BASE_URL, location.state]);
 
   return (
     <div className="inner-wrap">
       <section className="section-space">
         <div className="container">
-          <div className="row justify-content-center">
+          <div className="row ">
             <div className="col-lg-8">
               <div className="row row-srch">
                 <div className="col-md-5">
@@ -34,14 +44,17 @@ function List() {
                     <li className="list-inline-item">
                       <span>Search Result By:</span>
                     </li>
-                    <li className="list-inline-item">A & M Johnson Construction</li>
+                    <li className="list-inline-item">
+                      {/* Optional: Show name from first result if available */}
+                      {results.length > 0 ? results[0].name : "N/A"}
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
           </div>
 
-          <div className="row justify-content-center">
+          <div className="row ">
             <div className="col-lg-8">
               {loading ? (
                 <p>Loading...</p>

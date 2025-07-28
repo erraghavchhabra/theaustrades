@@ -426,7 +426,21 @@ p {
 .main-form .btn-light {
   margin-top: 31px;
 }
+.main-form  input::-webkit-input-placeholder {
+  opacity: 0.7;
+}
 
+.main-form  input::-moz-placeholder {
+  opacity: 0.7;
+}
+
+.main-form  input:-ms-input-placeholder {
+  opacity: 0.7;
+}
+
+.main-form  input::placeholder {
+  opacity: 0.7;
+}
 .advanced-search .btn-advance {
   display: inline-block;
   padding: 8px 16px;
