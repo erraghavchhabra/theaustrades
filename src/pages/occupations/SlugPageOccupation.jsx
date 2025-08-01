@@ -27,12 +27,12 @@ const SlugPageOccupation = () => {
       setResults(data.data || []);
       setTotal(data.total || 0);
       setLastPage(data.last_page || 1);
-      setLoading(false);
     } catch (error) {
       console.error("Error fetching licenses:", error);
       setResults([]);
       setTotal(0);
       setLastPage(1);
+    } finally {
       setLoading(false);
     }
   };
@@ -85,29 +85,72 @@ const SlugPageOccupation = () => {
                   ))}
 
                   {/* Pagination Controls */}
-                  <div className="pagination mt-4 d-flex justify-content-center">
+                  <div className="pagination mt-4 d-flex justify-content-center flex-wrap">
                     <button
-                      className="btn btn-outline-secondary mx-1"
+                      className="btn btn-outline-secondary mx-1 mb-2"
                       onClick={() => handlePageChange(currentPage - 1)}
                       disabled={currentPage === 1}
                     >
                       Previous
                     </button>
 
-                    {Array.from({ length: lastPage }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => handlePageChange(page)}
-                        className={`btn mx-1 ${
-                          page === currentPage ? "btn-primary" : "btn-outline-primary"
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    {(() => {
+                      const pageButtons = [];
+                      const maxVisible = 5;
+                      let start = Math.max(currentPage - Math.floor(maxVisible / 2), 1);
+                      let end = Math.min(start + maxVisible - 1, lastPage);
+
+                      if (end - start < maxVisible - 1) {
+                        start = Math.max(end - maxVisible + 1, 1);
+                      }
+
+                      if (start > 1) {
+                        pageButtons.push(
+                          <button
+                            key={1}
+                            onClick={() => handlePageChange(1)}
+                            className="btn mx-1 mb-2 btn-outline-primary"
+                          >
+                            1
+                          </button>
+                        );
+                        if (start > 2) {
+                          pageButtons.push(<span key="start-ellipsis" className="mx-1 mb-2">...</span>);
+                        }
+                      }
+
+                      for (let i = start; i <= end; i++) {
+                        pageButtons.push(
+                          <button
+                            key={i}
+                            onClick={() => handlePageChange(i)}
+                            className={`btn mx-1 mb-2 ${i === currentPage ? "btn-primary" : "btn-outline-primary"}`}
+                          >
+                            {i}
+                          </button>
+                        );
+                      }
+
+                      if (end < lastPage) {
+                        if (end < lastPage - 1) {
+                          pageButtons.push(<span key="end-ellipsis" className="mx-1 mb-2">...</span>);
+                        }
+                        pageButtons.push(
+                          <button
+                            key={lastPage}
+                            onClick={() => handlePageChange(lastPage)}
+                            className="btn mx-1 mb-2 btn-outline-primary"
+                          >
+                            {lastPage}
+                          </button>
+                        );
+                      }
+
+                      return pageButtons;
+                    })()}
 
                     <button
-                      className="btn btn-outline-secondary mx-1"
+                      className="btn btn-outline-secondary mx-1 mb-2"
                       onClick={() => handlePageChange(currentPage + 1)}
                       disabled={currentPage === lastPage}
                     >
