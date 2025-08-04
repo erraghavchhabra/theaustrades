@@ -55,7 +55,7 @@ const SlugPage = () => {
       <section className="section-space">
         <div className="container">
           {/* Heading */}
-          <div className="row justify-content-center">
+          <div className="row">
             <div className="col-lg-8">
               <div className="row row-srch">
                 <div className="col-md-5">
@@ -76,7 +76,7 @@ const SlugPage = () => {
           </div>
 
           {/* Results */}
-          <div className="row justify-content-center">
+          <div className="row">
             <div className="col-lg-8">
               {loading ? (
                 <p>Loading...</p>
@@ -89,7 +89,7 @@ const SlugPage = () => {
                   ))}
 
                   {/* Pagination Controls */}
-                  <div className="pagination mt-4 d-flex justify-content-center">
+                  <div className="pagination mt-4 d-flex ">
                     <button
                       className="btn btn-outline-secondary mx-1"
                       onClick={() => handlePageChange(currentPage - 1)}

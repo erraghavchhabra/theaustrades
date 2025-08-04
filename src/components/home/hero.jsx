@@ -60,7 +60,17 @@ function Hero() {
       const data = await res.json();
 
       if (Array.isArray(data.data)) {
-        navigate('/list', { state: { results: data.data } });
+       navigate('/list', {
+  state: {
+    results: data.data,
+    query: {
+      name,
+      licenseNumber,
+      selectedStates,
+      selectedOccupations
+    }
+  }
+});
       } else {
         console.error("Unexpected API response format:", data);
         navigate('/list', { state: { results: [] } });

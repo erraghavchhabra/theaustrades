@@ -53,7 +53,7 @@ const SlugPageOccupation = () => {
       <section className="section-space">
         <div className="container">
           {/* Header */}
-          <div className="row justify-content-center">
+          <div className="row">
             <div className="col-lg-8">
               <div className="row row-srch">
                 <div className="col-md-5">
@@ -72,7 +72,7 @@ const SlugPageOccupation = () => {
           </div>
 
           {/* Results */}
-          <div className="row justify-content-center">
+          <div className="row ">
             <div className="col-lg-8">
               {loading ? (
                 <p>Loading...</p>
