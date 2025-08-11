@@ -366,7 +366,10 @@ p {
   color: #fff;
   margin-top: 50px;
 }
-
+.main-form.search-form-list{
+  background-color: #003593;
+  margin-top: 100px;
+}
 .main-form .form-title {
   font-size: 30px;
 }
