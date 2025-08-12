@@ -5,8 +5,9 @@ import ListCard from "../components/listCard";
 
 function List() {
   const location = useLocation();
-  const { query = {} } = location.state || {};
+  const { query: initialQuery = {} } = location.state || {};
 
+  const [query, setQuery] = useState(initialQuery);
   const [results, setResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [lastPage, setLastPage] = useState(1);
@@ -14,17 +15,34 @@ function List() {
 
   const BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
+  // Helper to build proper URL params
+  const buildParams = (searchQuery) => {
+    const params = new URLSearchParams();
+    Object.entries(searchQuery || {}).forEach(([key, value]) => {
+      if (Array.isArray(value)) {
+        value.forEach((v) => {
+          params.append(`${key}[]`, typeof v === "object" ? v.value : v);
+        });
+      } else if (typeof value === "object" && value !== null) {
+        params.append(key, value.value ?? "");
+      } else if (value !== undefined && value !== null && value !== "") {
+        params.append(key, value);
+      }
+    });
+    return params;
+  };
+
   // Fetch data from API
   const fetchData = async (page = 1, searchQuery = query) => {
     try {
       setLoading(true);
 
-      const queryParams = new URLSearchParams({
-        ...searchQuery,
-        page,
-      });
+      const queryParams = buildParams(searchQuery);
+      queryParams.append("page", page);
 
-      const res = await fetch(`${BASE_URL}/building-licenses-search?${queryParams}`);
+      console.log("Fetching:", `${BASE_URL}/building-licenses-search?${queryParams.toString()}`);
+
+      const res = await fetch(`${BASE_URL}/building-licenses-search?${queryParams.toString()}`);
       const data = await res.json();
 
       setResults(data.data || []);
@@ -37,14 +55,15 @@ function List() {
     }
   };
 
+  // Run when query changes
   useEffect(() => {
     fetchData(1, query);
   }, [query]);
 
-  // Generate limited page numbers
+  // Generate page numbers
   const getPageNumbers = () => {
     const pages = [];
-    const maxVisible = 5; // how many numbers to show
+    const maxVisible = 5;
     let start = Math.max(1, currentPage - 2);
     let end = Math.min(lastPage, currentPage + 2);
 
@@ -70,7 +89,7 @@ function List() {
           initialQuery={query}
           onResults={(newQuery) => {
             setCurrentPage(1);
-            fetchData(1, newQuery);
+            setQuery(newQuery); // triggers useEffect -> fetchData
           }}
           variant="list"
         />

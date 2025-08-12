@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function SearchBar({ BASE_URL, initialQuery = {}, onResults, variant = "default" }) {
+function SearchBar({ initialQuery = {}, onResults, variant = "default" }) {
   const [name, setName] = useState(initialQuery.name || '');
   const [licenseNumber, setLicenseNumber] = useState(initialQuery.licenseNumber || '');
   const [selectedStates, setSelectedStates] = useState(initialQuery.selectedStates || []);
@@ -9,7 +9,6 @@ function SearchBar({ BASE_URL, initialQuery = {}, onResults, variant = "default"
   const [isAdvancedOpen, setIsAdvancedOpen] = useState(false);
 
   const navigate = useNavigate();
-  const location = useLocation();
 
   const STATES = ['ACT', 'NSW', 'VIC', 'WA', 'QLD', 'SA', 'NT', 'TAS'];
   const OCCUPATIONS = [
@@ -44,40 +43,20 @@ function SearchBar({ BASE_URL, initialQuery = {}, onResults, variant = "default"
     document.querySelectorAll('.advanced-search input[type=checkbox]').forEach(cb => cb.checked = false);
   };
 
-  const handleSearch = async () => {
-    const params = new URLSearchParams();
-    if (name) params.append('name', name);
-    if (licenseNumber) params.append('license_number', licenseNumber);
-    if (selectedStates.length > 0) {
-      selectedStates.forEach(state => params.append('states[]', state));
-    }
-    if (selectedOccupations.length > 0) {
-      selectedOccupations.forEach(occ => params.append('occupations[]', occ));
-    }
+  const handleSearch = () => {
+    const query = {
+      name,
+      licenseNumber,
+      selectedStates,
+      selectedOccupations
+    };
 
-    try {
-      const res = await fetch(`${BASE_URL}/building-licenses-search?${params.toString()}`);
-      const data = await res.json();
-
-      if (onResults) {
-        // On List page -> update results in place
-        onResults(data.data || []);
-      } else {
-        // On Hero page -> navigate to List page
-        navigate('/list', {
-          state: {
-            results: data.data || [],
-            query: { name, licenseNumber, selectedStates, selectedOccupations }
-          }
-        });
-      }
-    } catch (err) {
-      console.error("Search API error:", err);
-      if (onResults) {
-        onResults([]);
-      } else {
-        navigate('/list', { state: { results: [] } });
-      }
+    if (onResults) {
+      // On List page -> send query only, let List.jsx handle fetch
+      onResults(query);
+    } else {
+      // On Hero page -> navigate with query in state
+      navigate('/list', { state: { query } });
     }
   };
 
